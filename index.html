@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year 2026 - The Journey</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #000000; /* Pure black for night sky */
+            --accent-gold: #FFD700;
+            --card-red: #ff4757;
+            --text-dark: #2f3542;
+            --cream-bg: #f7f1e3;
+            --pink-accent: #ff9ff3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cream-bg);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* --- Utility Classes --- */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: all;
+            z-index: 10;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fredoka One', cursive;
+            margin-bottom: 1rem;
+        }
+
+        p.handwritten {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.3rem;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Fredoka One', cursive;
+            background: var(--card-red);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* --- Screen 1: Black Sky Firecracker Rocket --- */
+        #screen-1 {
+            background-color: #000000; /* Black Background */
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Stars for the black background */
+        .stars {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        /* The Firecracker Rocket Container */
+        .rocket-container {
+            position: absolute;
+            bottom: -200px; /* Start hidden below screen */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: bottom 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+
+        .rocket-container.fly {
+            bottom: 85%; /* Stop near top */
+        }
+
+        /* Rocket Icon Styling (Red Body) */
+        .rocket-body {
+            font-size: 4rem;
+            color: #ff4757;
+            position: relative;
+            filter: drop-shadow(0 0 10px rgba(255, 71, 87, 0.8));
+        }
+
+        /* The Stick/Fuse of the rocket */
+        .rocket-stick {
+            width: 6px;
+            height: 80px;
+            background: #dfe6e9;
+            margin-top: -10px; /* Connect to rocket */
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* Sparkle effect at bottom of rocket */
+        .sparkle {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ff9f43;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #ffa502, 0 -10px 20px #eccc68;
+            animation: spark 0.1s infinite alternate;
+            display: none; /* Show only when flying */
+        }
+
+        .rocket-container.fly .sparkle {
+            display: block;
+        }
+
+        @keyframes spark {
+            from { opacity: 0.8; transform: translateX(-50%) scale(1); }
+            to { opacity: 1; transform: translateX(-50%) scale(1.3); }
+        }
+
+        /* Explosion Visual */
+        .explosion {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 1;
+            z-index: 6;
+            pointer-events: none;
+            /* Box shadow creates the firework burst */
+            box-shadow: 
+                0 0 20px 10px #fff,
+                0 0 40px 20px #ff6b6b,
+                0 0 80px 40px #feca57,
+                0 0 120px 60px #ff9ff3;
+        }
+
+        .explosion.boom {
+            animation: explode 0.8s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+        }
+
+        .intro-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.5s ease 1.5s; /* Delay after explosion */
+            z-index: 10;
+        }
+
+        .intro-text.show {
+            opacity: 1;
+        }
+
+        .intro-text h1 {
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            line-height: 1.2;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Screen 2: Envelope --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin-top: 50px;
+        }
+
+        .envelope-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 150px;
+            background: #d63031;
+            border-radius: 0 0 10px 10px;
+            z-index: 2;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: #ff4757;
+            transform-origin: top;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transition: transform 0.6s ease;
+            z-index: 3;
+        }
+
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 20px;
+            left: 10%;
+            width: 80%;
+            height: 90%;
+            background: white;
+            padding: 15px;
+            transition: transform 0.8s ease 0.6s;
+            z-index: 1;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-120px);
+            z-index: 3;
+        }
+
+        /* --- Screen 3: Goals --- */
+        .goals-container {
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .goal-item {
+            background: white;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .screen.active .goal-item {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .screen.active .goal-item:nth-child(1) { transition-delay: 0.1s; }
+        .screen.active .goal-item:nth-child(2) { transition-delay: 0.2s; }
+        .screen.active .goal-item:nth-child(3) { transition-delay: 0.3s; }
+
+        .goal-icon {
+            width: 45px;
+            height: 45px;
+            background: #dfe6e9;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--card-red);
+            font-size: 1.2rem;
+        }
+
+        /* --- Screen 4: Music Cards --- */
+        .music-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .music-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s, border 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-card:hover {
+            transform: scale(1.02);
+        }
+
+        .music-card.playing {
+            border-color: var(--card-red);
+            background: #fff0f1;
+        }
+
+        .music-card.playing::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--card-red);
+            animation: equalizer 1s infinite ease-in-out;
+        }
+
+        @keyframes equalizer {
+            0%, 100% { height: 20%; top: 40%; }
+            50% { height: 80%; top: 10%; }
+        }
+
+        .music-icon {
+            font-size: 2rem;
+            color: #555;
+        }
+
+        /* --- Screen 5: Flip Cards --- */
+        .flip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 15px;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .flip-card-front {
+            background: white;
+            color: black;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* --- Screen 6: Loading --- */
+        .spark-btn {
+            background: linear-gradient(to right, #f83600 0%, #f9d423 51%, #f83600 100%);
+            background-size: 200% auto;
+            transition: 0.5s;
+        }
+        .spark-btn:hover {
+            background-position: right center;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .progress-wrapper {
+            width: 300px;
+            height: 20px;
+            background: #dfe4ea;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-gold);
+            transition: width 0.1s linear;
+        }
+
+        /* --- Screen 7: Final --- */
+        .final-note {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 350px;
+            border: 2px dashed #b2bec3;
+            position: relative;
+        }
+        
+        .stamp {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 60px;
+            height: 60px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Fredoka One';
+            transform: rotate(15deg);
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .stamp.visible {
+            opacity: 1;
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        /* Confetti Canvas */
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti"></canvas>
+
+    <!-- SCREEN 1: ROCKET INTRO -->
+    <div id="screen-1" class="screen active">
+        <div class="stars"></div>
+        
+        <!-- Firecracker Rocket -->
+        <div class="rocket-container" id="rocket">
+            <div class="rocket-body"><i class="fas fa-rocket"></i></div>
+            <div class="rocket-stick"></div>
+            <div class="sparkle"></div>
+        </div>
+        
+        <!-- Explosion Point -->
+        <div class="explosion" id="explosion"></div>
+        
+        <div class="intro-text" id="intro-text">
+            <h1>HAPPY NEW YEAR<br><span style="color:white; font-size: 0.7em;">2026</span></h1>
+            <p style="font-family: 'Patrick Hand'; color: #ffeaa7; font-size: 1.5rem; margin-top: 10px;">Let's start the journey! 🚀</p>
+            <button onclick="nextScreen(2)">Start Journey</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: ENVELOPE -->
+    <div id="screen-2" class="screen">
+        <h2>I LOVE YOU...Pglu... <br>For You, Suhani Baby... ❤️</h2>
+        <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="letter">
+                <h3 style="color: var(--card-red); font-size: 1.5rem;">Happy New Year!</h3>
+                <p class="handwritten" style="font-size: 1rem; margin: 10px 0;">Thank you for everything in 2025. Let's make 2026 magical!</p>
+                <p style="font-size: 0.8rem; color: #888;">(Tap again to close)</p>
+            </div>
+        </div>
+        <button onclick="nextScreen(3)" style="opacity: 0; pointer-events: none; transition: opacity 0.5s;" id="btn-screen2">Continue</button>
+    </div>
+
+    <!-- SCREEN 3: GOALS -->
+    <div id="screen-3" class="screen">
+        <h2>2026 Bucket List 🎯</h2>
+        <div class="goals-container">
+            <div class="goal-item">
+                <div class="goal-icon"><i class="fas fa-plane-departure"></i></div>
+                <div>
+                    <h3>Travel More</h3>
+                    <p class="handwritten">Ghumi Ghumi😁.</p>
+                </div>
+            </div>
+            <div class="goal-item">
+                <div class="goal-icon"><i class="fas fa-heart"></i></div>
+                <div>
+                    <h3>Stay Healthy</h3>
+                    <p class="handwritten">Eat good, feel good.</p>
+                </div>
+            </div>
+            <div class="goal-item">
+                <div class="goal-icon"><i class="fas fa-smile"></i></div>
+                <div>
+                    <h3>Be Happy</h3>
+                    <p class="handwritten">Hugi🫂 and Kissi😘</p>
+                </div>
+            </div>
+        </div>
+        <button onclick="nextScreen(4)">Isko Dabao..🙈</button>
+    </div>
+
+    <!-- SCREEN 4: MUSIC PLAYER -->
+    <div id="screen-4" class="screen">
+        <h2>Dedicated To You 🎵</h2>
+        <p style="color: #636e72; margin-bottom: 20px;">Click to Play / Pause</p>
+        
+        <div class="music-container">
+            <!-- Song 1 -->
+            <div class="music-card" id="card-song1" onclick="toggleMusic('song1')">
+                <div class="music-icon"><i class="fas fa-compact-disc"></i></div>
+                <div style="text-align: left;">
+                    <h3 style="font-size: 1rem;">High On You</h3>
+                    <p style="font-size: 0.8rem; color: #888;">Good Vibes Only</p>
+                </div>
+                <i class="fas fa-play-circle" style="margin-left: auto; font-size: 1.5rem; color: var(--card-red);"></i>
+            </div>
+
+            <!-- Song 2 -->
+            <div class="music-card" id="card-song2" onclick="toggleMusic('song2')">
+                <div class="music-icon"><i class="fas fa-music"></i></div>
+                <div style="text-align: left;">
+                    <h3 style="font-size: 1rem;">For A Reason</h3>
+                    <p style="font-size: 0.8rem; color: #888;">Moments feel right</p>
+                </div>
+                <i class="fas fa-play-circle" style="margin-left: auto; font-size: 1.5rem; color: var(--card-red);"></i>
+            </div>
+
+            <!-- Song 3 -->
+            <div class="music-card" id="card-song3" onclick="toggleMusic('song3')">
+                <div class="music-icon"><i class="fas fa-headphones"></i></div>
+                <div style="text-align: left;">
+                    <h3 style="font-size: 1rem;">Dil Ka Jo Haal Hai</h3>
+                    <p style="font-size: 0.8rem; color: #888;">Pure Reflection</p>
+                </div>
+                <i class="fas fa-play-circle" style="margin-left: auto; font-size: 1.5rem; color: var(--card-red);"></i>
+            </div>
+        </div>
+
+        <button onclick="nextScreen(5)">Next Page 👉</button>
+    </div>
+
+    <!-- SCREEN 5: FLIP CARDS -->
+    <div id="screen-5" class="screen">
+        <h2>A Few Things I Want To Say To You ✨</h2>
+        <p style="margin-bottom: 20px; color: #888;">(Tap cards to flip)</p>
+
+        <div class="flip-grid">
+            <!-- Card 1 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-star" style="font-size: 3rem; color: #f1c40f; margin-bottom: 10px;"></i>
+                        <h3>Shine Bright</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p class="handwritten" style="font-size: 1.2rem;">"Aap Meri Life ki Sabse Bright or Chamkili chij ho ..."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-khanda" style="font-size: 3rem; color: #e84393; margin-bottom: 10px;"></i>
+                        <h3>Stay Strong</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p class="handwritten" style="font-size: 1.2rem;">"Waise toh tu bhot strong hai but jab bhi dar lage bs mujhe yaad kiya kar..."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-gift" style="font-size: 3rem; color: #00cec9; margin-bottom: 10px;"></i>
+                        <h3>You're a Gift</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p class="handwritten" style="font-size: 1.2rem;">"Mere liye Sabse bada gift Mera Pglu...hai"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="nextScreen(6)">Almost There! 🚀</button>
+    </div>
+
+    <!-- SCREEN 6: READY / LOADING -->
+    <div id="screen-6" class="screen">
+        <div style="text-align: center;">
+            <div style="font-size: 5rem; margin-bottom: 10px;">🔥</div>
+            <h2>Ready for 2026?</h2>
+            <p class="handwritten">Let's ignite the spark for a new beginning...</p>
+        </div>
+
+        <button class="spark-btn" onclick="igniteSpark()">Ignite The Spark ✨</button>
+
+        <div class="progress-wrapper" id="progressWrapper">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p id="progressText" style="margin-top: 10px; font-weight: bold; color: #636e72; display: none;">Loading Magic...</p>
+    </div>
+
+    <!-- SCREEN 7: FINAL NOTE -->
+    <div id="screen-7" class="screen">
+        <div class="final-note">
+            <div class="stamp" id="finalStamp">SEALED</div>
+            <h3 style="color: var(--card-red);">One Last Note 💌</h3>
+            <p class="handwritten" style="margin: 20px 0; font-size: 1.2rem;">
+                Dear Pglu...,<br><br>
+                Tu mujhse bhot sara andha pyaar karta rahe..🥰,<br>
+                ye saal aapki life m bhot sari khushiyaa laye or  endless happiness, love, and success.<br>
+                 Thank you for being amazing. Here's to 2026!
+            </p>
+            <div style="font-size: 2rem;">🎆🎉🎊</div>
+        </div>
+        <button id="sealBtn" onclick="sealNote()">Seal It ❤️</button>
+        <button id="restartBtn" class="hidden" onclick="restartJourney()">Restart The Journey 🔄</button>
+    </div>
+
+    <script>
+        // --- Navigation Logic ---
+        let currentScreen = 1;
+
+        function nextScreen(screenNum) {
+            document.getElementById(`screen-${currentScreen}`).classList.remove('active');
+            currentScreen = screenNum;
+            document.getElementById(`screen-${currentScreen}`).classList.add('active');
+        }
+
+        // --- Screen 1: Rocket Logic (Updated) ---
+        window.onload = function() {
+            setTimeout(() => {
+                const rocket = document.getElementById('rocket');
+                rocket.classList.add('fly'); // Rocket udta hai upar
+
+                // 2.2 seconds baad fatkega (kyuki ab travel zada hai)
+                setTimeout(() => {
+                    triggerExplosion();
+                }, 2200);
+            }, 500);
+        }
+
+        function triggerExplosion() {
+            const exp = document.getElementById('explosion');
+            const rocket = document.getElementById('rocket');
+            const introText = document.getElementById('intro-text');
+            
+            // Rocket hide karo (blast ho gaya)
+            rocket.style.display = 'none';
+            
+            // Boom visual
+            exp.classList.add('boom');
+            
+            // Screen shake effect (ROAR)
+            document.body.style.transform = "translate(5px, 5px)";
+            setTimeout(() => document.body.style.transform = "translate(-5px, -5px)", 50);
+            setTimeout(() => document.body.style.transform = "translate(5px, -5px)", 100);
+            setTimeout(() => document.body.style.transform = "translate(0, 0)", 150);
+
+            // Text show
+            introText.classList.add('show');
+            startConfetti(); // Celebration
+        }
+
+        // --- Screen 2: Envelope Logic ---
+        let isEnvelopeOpen = false;
+        function openEnvelope() {
+            const env = document.getElementById('envelope');
+            const btn = document.getElementById('btn-screen2');
+            
+            if (!isEnvelopeOpen) {
+                env.classList.add('open');
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'all';
+                isEnvelopeOpen = true;
+            } else {
+                env.classList.remove('open');
+                btn.style.opacity = '0';
+                btn.style.pointerEvents = 'none';
+                isEnvelopeOpen = false;
+            }
+        }
+
+        // --- Screen 4: Music Logic (Fixed) ---
+        // NOTE: Ensure your MP3 files are in the same folder.
+        const songs = {
+            'song1': 'high.mp3',
+            'song2': 'for.mp3',
+            'song3': 'dil.mp3'
+        };
+        
+        let currentAudio = null;
+        let currentPlayingId = null;
+
+        function toggleMusic(songId) {
+            // 1. Agar koi song already chal raha hai, toh use RUKO (Pause)
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0; // Reset time
+                updateCardUI(currentPlayingId, false); // UI reset karo
+                
+                // Agar user wahi card dubara click kar raha hai, toh bas stop karo, kuch mat banao
+                if (currentPlayingId === songId) {
+                    currentAudio = null;
+                    currentPlayingId = null;
+                    return;
+                }
+            }
+
+            // 2. Naya song bajao
+            const audio = new Audio(songs[songId]);
+            
+            // Error Handling (Agar file nahi milti toh alert dena)
+            audio.onerror = function() {
+                alert("Song file nahi mili: " + songs[songId] + "\nPlease check file name!");
+                updateCardUI(songId, false);
+                return;
+            };
+
+            audio.play().then(() => {
+                // Successfully play hua
+                currentAudio = audio;
+                currentPlayingId = songId;
+                updateCardUI(songId, true);
+            }).catch(e => {
+                console.error("Audio play blocked or failed", e);
+            });
+
+            // Jab song khatam ho
+            audio.onended = () => {
+                updateCardUI(songId, false);
+                currentAudio = null;
+                currentPlayingId = null;
+            };
+        }
+
+        function updateCardUI(songId, isPlaying) {
+            const card = document.getElementById(`card-${songId}`);
+            if(!card) return; // Safety check
+            
+            const icon = card.querySelector('.fa-play-circle, .fa-pause-circle');
+            
+            if (isPlaying) {
+                card.classList.add('playing');
+                icon.classList.remove('fa-play-circle');
+                icon.classList.add('fa-pause-circle');
+            } else {
+                card.classList.remove('playing');
+                icon.classList.remove('fa-pause-circle');
+                icon.classList.add('fa-play-circle');
+            }
+        }
+
+        // --- Screen 6: Ignite / Loading Logic ---
+        function igniteSpark() {
+            const btn = document.querySelector('.spark-btn');
+            btn.classList.add('hidden'); 
+            
+            const wrapper = document.getElementById('progressWrapper');
+            const bar = document.getElementById('progressBar');
+            const txt = document.getElementById('progressText');
+
+            wrapper.style.display = 'block';
+            txt.style.display = 'block';
+
+            setTimeout(() => { bar.style.width = '100%'; }, 100);
+
+            setTimeout(() => {
+                nextScreen(7);
+            }, 2200);
+        }
+
+        // --- Screen 7: Final & Restart ---
+        function sealNote() {
+            const stamp = document.getElementById('finalStamp');
+            const sealBtn = document.getElementById('sealBtn');
+            const restartBtn = document.getElementById('restartBtn');
+
+            stamp.classList.add('visible'); 
+            sealBtn.classList.add('hidden');
+            
+            startConfetti(); 
+            
+            setTimeout(() => {
+                restartBtn.classList.remove('hidden');
+            }, 1000);
+        }
+
+        function restartJourney() {
+            // Reset everything
+            currentScreen = 1;
+            
+            // Reset Screen 1
+            const rocket = document.getElementById('rocket');
+            const exp = document.getElementById('explosion');
+            const introText = document.getElementById('intro-text');
+            
+            rocket.style.display = 'flex'; // Show rocket again
+            rocket.classList.remove('fly');
+            exp.classList.remove('boom');
+            introText.classList.remove('show');
+
+            // Reset Screen 2
+            isEnvelopeOpen = false;
+            document.getElementById('envelope').classList.remove('open');
+            document.getElementById('btn-screen2').style.opacity = '0';
+            document.getElementById('btn-screen2').style.pointerEvents = 'none';
+
+            // Reset Music
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                currentPlayingId = null;
+            }
+            ['song1', 'song2', 'song3'].forEach(id => updateCardUI(id, false));
+
+            // Reset Screen 6
+            document.querySelector('.spark-btn').classList.remove('hidden');
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressWrapper').style.display = 'none';
+            document.getElementById('progressText').style.display = 'none';
+
+            // Reset Screen 7
+            document.getElementById('finalStamp').classList.remove('visible');
+            document.getElementById('sealBtn').classList.remove('hidden');
+            document.getElementById('restartBtn').classList.add('hidden');
+
+            // Hide all screens except 1
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-1').classList.add('active');
+
+            // Restart Intro
+            window.onload();
+        }
+
+        // --- Confetti Effect ---
+        function startConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ffa502', '#eccc68'];
+
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 8 + 4,
+                    speed: Math.random() * 4 + 2,
+                    oscillation: Math.random() * 2
+                });
+            }
+
+            let animationFrame;
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                    p.y += p.speed;
+                    p.x += Math.sin(p.oscillation) * 2;
+                    p.oscillation += 0.05;
+
+                    if (p.y > canvas.height) {
+                        p.y = -10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+                animationFrame = requestAnimationFrame(draw);
+            }
+
+            draw();
+
+            setTimeout(() => {
+                cancelAnimationFrame(animationFrame);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 3000);
+        }
+        
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confetti');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
